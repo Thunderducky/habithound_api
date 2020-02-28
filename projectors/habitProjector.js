@@ -1,19 +1,18 @@
-// Two flows
-    // Augment existing projection
-    // Build Projection from scratch
-
-
-// Update projection
-// CreateProjection from scratch
-// Creating the model will be from OUTSIDE this part
-// TODO: Check in about timestamps
+const moment = require("moment");
+// TODO: Move this into a utils folder and add some tests
 /**
  * How many times has it been midnight between these two times
  * @param {Number} newCheckin Unix timestamp
  * @param {Number} prevCheckin Unix timestamp
  */
 const midnightsSinceLastCheckin = (newCheckin, prevCheckin) => {
-    //
+    // console.log(newCheckin, prevCheckin);
+    // const start = moment(prevCheckin).startOf("day");
+    // console.log("START", start.toDate());
+    // return moment(start).diff(newCheckin, "hours")
+    const beginningOfPrevDay = moment(prevCheckin).startOf("day");
+    const nextDay = moment(newCheckin);
+    return moment(nextDay).diff(beginningOfPrevDay, "day")
 }
 
 /**
@@ -22,13 +21,16 @@ const midnightsSinceLastCheckin = (newCheckin, prevCheckin) => {
  * @param {HabitProjection} prevProjection the previous HabitProjection Model
  */
 const updateProjection = (events, prevProjection) => {
-    const { habitUuid, lastCheckin } = prevProjection;
+    const { habitUuid } = prevProjection;
     let {lastCheckin} = prevProjection;
-    const currentDailyStreak = events.reduce((event, streak) => {
-         // count the midnights since last checkin
-         const midnights = midnightsSinceLastCheckin(event.createdAt, lastCheckin);
-         // update the last checkin
-         lastCheckin = event.createdAt;
+    const currentDailyStreak = events.reduce((streak, event) => {
+        if(!lastCheckin){
+            lastCheckin = event.createdAt;
+            return 1; // if there is no last checkin this is the beginning of the streak
+        } 
+
+        const midnights = midnightsSinceLastCheckin(event.createdAt, lastCheckin);
+        lastCheckin = event.createdAt;
          
          if(midnights === 1){   // it's the next day, bump our streak
              return streak + 1;
@@ -37,7 +39,13 @@ const updateProjection = (events, prevProjection) => {
          } else { // it's been to early, filter this out
              return streak;
          }
-    }, currentDailyStreak)
+    }, prevProjection.currentDailyStreak)
+    // Update projection Stats
+    prevProjection.lastCheckin = lastCheckin
+    prevProjection.currentDailyStreak = currentDailyStreak;
 }
 
-module.exports = buildProjection;
+module.exports = {
+    updateProjection,
+    midnightsSinceLastCheckin
+};

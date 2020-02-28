@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// TODO: Make this Class unimplementable directly
 const HabitProjectionSchema = new Schema({
     habitUuid: {
         type: String,
@@ -16,6 +15,7 @@ const HabitProjectionSchema = new Schema({
     lastCheckin: {
         type: Date
     }
+    // TODO: Add a way of keeping track of which events we have processed so far and which we haven't
 });
 
 const HabitProjection = mongoose.model("HabitProjection", HabitProjectionSchema);

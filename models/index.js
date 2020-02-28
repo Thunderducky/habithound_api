@@ -1,3 +1,5 @@
 module.exports = {
-    DomainEvents: require("./domainEvents")
+    User: require("./user"),
+    DomainEvents: require("./domainEvents"),
+    DomainProjections: require("./domainProjections")
 };

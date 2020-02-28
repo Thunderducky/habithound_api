@@ -1,18 +1,19 @@
+const mongoose = require("mongoose");
 const BaseDomainEvent = require("./baseDomainEvent");
 
 const UserHabitCreatedEvent = BaseDomainEvent.discriminator('UserHabitCreatedEvent',
     new mongoose.Schema({
-        habit_uuid: {
+        habitUuid: {
             type: String,
             required: true,
             unique: true
         },
-        user_uuid: {
+        userUuid: {
             type: String,
             required: true,
             unique: true
         },
-        habit_text: {
+        habitText: {
             type: String,
             required: true
         }
