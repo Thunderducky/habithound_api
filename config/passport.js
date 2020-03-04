@@ -12,7 +12,7 @@ const opts = {
 passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
     try {
         if(jwt_payload.exp < moment().unix()){
-            return done(null, false); // We have an expired token
+            return done("expired"); // We have an expired token
         }
         const user = await db.User.findOne({
             uuid: jwt_payload.sub

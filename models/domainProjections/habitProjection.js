@@ -2,10 +2,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const HabitProjectionSchema = new Schema({
+    userUuid: {
+        type: String,
+        required: true
+    },
     habitUuid: {
         type: String,
         required: true,
         unique: true
+    },
+    habitText: {
+        type: String,
+        required: true
     },
     currentDailyStreak: {
         type: Number,

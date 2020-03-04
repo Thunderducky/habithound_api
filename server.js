@@ -5,6 +5,7 @@ const passport = require("./config/passport");
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 const authRouter = require("./routes/authRoutes");
+const habitRouter = require("./routes/habitRoutes");
 mongoose.connect(MONGODB_URI || "mongodb://localhost/habithacker", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(passport.initialize());
 
 app.use("/api/auth/local", authRouter);
+app.use("/api/habits", habitRouter)
 
 app.listen(PORT, () => {
     console.log("Listening on port:", PORT)

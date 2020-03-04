@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // TODO: Make this Class unimplementable directly
 const BaseDomainEventSchema = new Schema({
-    uuid: {
+    eventUuid: {
         type: String,
         required: true,
         unique: true

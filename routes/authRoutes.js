@@ -2,7 +2,7 @@ const db = require("../models");
 const router = require("express").Router();
 const { generateUuid } = require("../service/idService");
 const jwt = require("jsonwebtoken");
-const passport = require("../config/passport");
+const {hasValidToken} = require("../middleware");
 
 const { JWT_SECRET } = process.env;
 
@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
     }
 })
 
-router.get("/test", passport.authenticate("jwt", {session: false}), async (req, res) => {
+router.get("/test", hasValidToken, (req, res) => {
     res.json({user: req.user, msg: "Signed In"})
 })
 
