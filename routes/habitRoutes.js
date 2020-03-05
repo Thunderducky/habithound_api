@@ -39,28 +39,18 @@ router.get("/", async (req, res) => {
         // We have found the relevant projection, let's return it
         res.json({
             habits: projections.map(projection => {
-                const habit = Object.assign({}, projection);
+                const habit = Object.assign({}, projection._doc);
                 // any modifications we need we can put in here
                 if(midnightsBetweenDates(habit.lastCheckin, moment().toDate()) > 1){
                     habit.currentDailyStreak = 0;
                 }
+                // Let's get rid of the objectId
+                // Remove unrelated projection info for now
+                delete habit.userUuid;
+                delete habit._id;
                 return habit;
             })
         })
-        
-        // We're going to quickly check since the last projection and make sure everything
-        // Don't want to make extra trips to the database for now, so we'll just make a quick update over the projection
-        if(midnightsBetweenDates(lastCheckin, moment().toDate()) > 1){
-            currentDailyStreak = 0;
-        }
-
-        res.json({
-            habitUuid,
-            habitText,
-            currentDailyStreak,
-            lastCheckin
-        });
-        
     } catch(ex){
         return res.status(500).send("Something went wrong");
     }
