@@ -14,8 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(passport.initialize());
 
-app.use("/api/auth/local", authRouter);
-app.use("/api/habits", habitRouter)
+app.use("/api/auth/local/", authRouter);
+app.use("/api/habits/", habitRouter)
 
 app.listen(PORT, () => {
     console.log("Listening on port:", PORT)

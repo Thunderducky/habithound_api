@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
 
-// TODO: Make this Class unimplementable directly
 const UserSchema = new Schema({
     uuid: {
         type: String,
@@ -21,10 +20,10 @@ const UserSchema = new Schema({
 }, {
     timestamps: true, // gives us createdAt and updatedAt for free
 });
-// TODO: Better password validation
+
 UserSchema.pre('save', async function(next){
     if(this.isModified('password') || this.isNew){
-        const hash = await bcrypt.hash(this.password, 10);
+        const hash = await bcrypt.hash(this.password, 12);
         this.password = hash;
     }
 });

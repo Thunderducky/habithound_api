@@ -10,7 +10,7 @@ router.post("/register", async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Malformed signup
+        // Check for malformed signup
         if (!email || !password) {
             return res.status(401).send("Missing email or password");
         }
@@ -41,10 +41,12 @@ router.post("/login", async (req, res) => {
         }
 
         // Pre-existing user -> Can't signup
+        console.log("check for user");
         const matchingUser = await db.User.findOne({ email });
         if (!matchingUser) {
             return res.status(401).send("Incorrect email or password");
         }
+        console.log("matching user");
         const payload = {
             sub: matchingUser.uuid
         }
