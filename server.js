@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(passport.initialize());
 
+app.get("/", (req, res) => res.send("Welcome to the HabitHound API"))
 app.use("/api/auth/local/", authRouter);
 app.use("/api/habits/", habitRouter)
 
