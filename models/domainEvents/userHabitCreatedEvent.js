@@ -10,8 +10,7 @@ const UserHabitCreatedEvent = BaseDomainEvent.discriminator('UserHabitCreatedEve
         },
         userUuid: {
             type: String,
-            required: true,
-            unique: true
+            required: true
         },
         habitText: {
             type: String,

@@ -1,8 +1,8 @@
 // The factory doesn't persist things to the database, it just helps make them
 const uuidv4 = require("uuid/v4");
-
 const db = require("../models");
 
+// Helper method to allow for some randomness
 const makeRandomString = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
 /**
@@ -15,7 +15,7 @@ const makeRandomString = () => Math.random().toString(36).substring(2, 15) + Mat
 const createUser = (options = {}) => {
     const {
         email = `${makeRandomString()}@example.com`,
-        password = "okokok",
+        password = "okokok", // our users are bad at passwords, ok
         time = Date.now()
     } = options;
 
